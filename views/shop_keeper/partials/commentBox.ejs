@@ -1,0 +1,21 @@
+<h2 class="mt-4 mb-3">نظرات</h2>
+
+<% if (comments.length > 0) { %>
+  <div class="comments-box">
+    <% comments.forEach(comment => { %>
+      <div class="card mb-3 border border-primary">
+        <div class="card-body">
+          <h5 class="card-title">
+            <strong><%= comment.full_name %> گفت : </strong>
+            <small class="text-muted">(<%= comment.username %>@)</small>
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted"> <%= comment.created_at %></h6>
+          <p class="card-text"><%= comment.comment_text %></p>
+          <p class="card-text">امتیاز: <%= comment.rating %></p>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+<% } else { %>
+  <p class="text-muted">هیچ نظری یافت نشد.</p>
+<% } %>

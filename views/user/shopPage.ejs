@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پروفایل فروشگاه</title>
+    <link rel="stylesheet" href="/CSS/management.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+  <%- include('partials/header') %>
+  <h1><%= shop.shop_name %></h1>
+
+  <div class="info-box">
+    <div class="left">
+      <label>نام مغازه</label>
+      <div class="value"><%= shop.shop_name %></div>
+    </div>
+
+    <div class="right">
+      <label>دسته‌بندی فروشگاه</label>
+      <div class="value"><%= shop.storeType || 'نامشخص' %></div>
+
+      <label>وب‌سایت</label>
+      <div class="value">
+        <a href="<%= shop.website || '#' %>" target="_blank">
+          <%= shop.website || 'ندارد' %>
+        </a>
+      </div>
+
+      <label>ساعات کاری</label>
+      <div class="value"><%= shop.working_hours || 'نامشخص' %></div>
+
+      <label>شماره واحد</label>
+      <div class="value"><%= shop.unit_number || 'نامشخص' %></div>
+
+      <label>توضیحات</label>
+      <div class="value"><%= shop.description || 'ندارد' %></div>
+    </div>
+  </div>
+
+  <!-- گالری تصاویر -->
+  <div class="gallery">
+    <% if (shop.images && shop.images.length > 0) { %>
+      <% shop.images.forEach(image => { %>
+        <img src="<%= image %>" alt="تصویر فروشگاه" onclick="openModal(this.src)">
+      <% }) %>
+    <% } else { %>
+      <p>تصویری برای این فروشگاه موجود نیست.</p>
+    <% } %>
+  </div>
+
+  <!-- مودال نمایش تصویر -->
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <div class="modal-content">
+      <img id="modalImage" src="" alt="تصویر بزرگ">
+    </div>
+  </div>
+
+  <script>
+    function openModal(src) {
+      const modal = document.getElementById("imageModal");
+      const img = document.getElementById("modalImage");
+      img.src = src;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    
+  </script>
+  <% if (isUser) { %>
+    <%- include('./../shop_keeper/partials/sendComment') %>
+  <% } %>
+  <%- include('./../shop_keeper/partials/commentBox') %>
+  <%- include('./../partials/footer') %>
+</body>
+
+</html>

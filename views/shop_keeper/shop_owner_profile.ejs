@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ویرایش اطلاعات فروشگاه</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/CSS/management.css"></head>
+<body>
+    
+
+    <%- include('./../user/partials/header') %>
+  <main class="container mt-5">
+    
+
+    <h2 class="mb-4 text-center">ویرایش اطلاعات فروشگاه</h2>
+    <div id="responseMsg"></div>
+    <form id="editShopForm" action="/shk/update-shop/<%= shop.shop_id %>" method="POST">
+
+
+      <div class="row g-3">
+        <!-- اطلاعات صاحب مغازه -->
+        <div class="col-md-6">
+          <label class="form-label">نام کامل</label>
+          <input type="text" name="full_name" class="form-control" value="<%= shop.full_name %>" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">ایمیل</label>
+          <input type="email" name="email" class="form-control" value="<%= shop.email %>" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">شماره موبایل</label>
+          <input type="text" name="mobile" class="form-control" value="<%= shop.mobile %>" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">کد ملی</label>
+          <input type="text" name="national_id" class="form-control" value="<%= shop.national_id %>" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">نام کاربری</label>
+          <input type="text" name="username" class="form-control" value="<%= shop.username %>" required />
+        </div>
+
+        <!-- اطلاعات فروشگاه -->
+        <div class="col-md-6">
+          <label class="form-label">نام فروشگاه</label>
+          <input type="text" name="shop_name" class="form-control" value="<%= shop.shop_name %>" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">دسته‌بندی فروشگاه</label>
+          <select name="storeType" class="form-select" required>
+            <option value="" disabled <%= !shop.storeType ? 'selected' : '' %>>انتخاب دسته‌بندی</option>
+            <option value="پوشاک" <%= shop.storeType === 'پوشاک' ? 'selected' : '' %>>پوشاک</option>
+            <option value="خدماتی" <%= shop.storeType === 'خدماتی' ? 'selected' : '' %>>خدماتی</option>
+            <option value="لوازم خانگی" <%= shop.storeType === 'لوازم خانگی' ? 'selected' : '' %>>لوازم خانگی</option>
+            <option value="مواد غذایی" <%= shop.storeType === 'مواد غذایی' ? 'selected' : '' %>>مواد غذایی</option>
+            <option value="زیبایی و آرایشی" <%= shop.storeType === 'زیبایی و آرایشی' ? 'selected' : '' %>>زیبایی و آرایشی</option>
+            <option value="کتاب و لوازم‌التحریر" <%= shop.storeType === 'کتاب و لوازم‌التحریر' ? 'selected' : '' %>>کتاب و لوازم‌التحریر</option>
+            <option value="الکترونیک و دیجیتال" <%= shop.storeType === 'الکترونیک و دیجیتال' ? 'selected' : '' %>>الکترونیک و دیجیتال</option>
+            <option value="ورزشی" <%= shop.storeType === 'ورزشی' ? 'selected' : '' %>>ورزشی</option>
+            <option value="کودک و اسباب‌بازی" <%= shop.storeType === 'کودک و اسباب‌بازی' ? 'selected' : '' %>>کودک و اسباب‌بازی</option>
+            <option value="زیورآلات و اکسسوری" <%= shop.storeType === 'زیورآلات و اکسسوری' ? 'selected' : '' %>>زیورآلات و اکسسوری</option>
+          </select>
+        </div>
+        
+        <div class="col-md-6">
+          <label class="form-label">وب‌سایت</label>
+          <input type="text" name="website" class="form-control" value="<%= shop.website %>" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">ساعات کاری</label>
+          <input type="text" name="working_hours" class="form-control" value="<%= shop.working_hours %>" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">شماره واحد</label>
+          <input type="text" name="unit_number" class="form-control" value="<%= shop.unit_number %>" />
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">توضیحات</label>
+          <textarea name="description" class="form-control"><%= shop.description %></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-outline-primary-custom">ذخیره تغییرات</button>
+
+      <div class="col-md-12">
+        <label class="form-label">تصاویر فروشگاه</label>
+        <div class="row">
+          <% if (shop.images && shop.images.length > 0) { %>
+            <% shop.images.forEach(image => { %>
+              <div class="col-md-3 mb-3 position-relative">
+               
+                <img src="<%= image %>" alt="Shop Image" class="img-fluid rounded shop-image" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="setModalImage('<%= image %>')">
+                
+               
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" onclick="deleteImage('<%= image %>')">
+                  <i class="bi bi-trash"></i> 
+                </button>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="text-muted">هیچ تصویری برای این فروشگاه وجود ندارد.</p>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Modal برای نمایش تصویر -->
+      <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="imageModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body text-center">
+              <img id="modalImage" src="" alt="Shop Image" class="img-fluid rounded">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      
+    </form>
+    <div class="col-md-12">
+      <label class="form-label">افزودن عکس</label>
+      <input type="file" id="shopImagesInput" class="form-control" accept="image/*" multiple>
+      <button class="btn-outline-primary-custom mt-2" onclick="uploadImages()">آپلود تصاویر</button>
+    </div>
+
+    <%- include('./../shop_keeper/partials/deleteComment')  %>
+    
+    <script>
+const form = document.getElementById('editShopForm');
+const msg = document.getElementById('responseMsg');
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+  
+  // ایجاد یک FormData از فرم
+  const formData = new FormData(form);
+
+  // ارسال درخواست به سرور
+  const res = await fetch(form.action, {
+    method: 'POST',
+    body: formData,
+  });
+
+  // بررسی وضعیت پاسخ
+  const data = await res.json();
+  if (res.ok) {
+    msg.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+  } else {
+    msg.innerHTML = `<div class="alert alert-danger">${data.message || 'خطا در ارسال درخواست.'}</div>`;
+  }
+});
+
+
+
+        function setModalImage(imageSrc) {
+          const modalImage = document.getElementById('modalImage');
+          modalImage.src = imageSrc;
+        }
+      
+        async function deleteImage(imagePath) {
+  if (confirm('آیا مطمئن هستید که می‌خواهید این تصویر را حذف کنید؟')) {
+    try {
+      const response = await fetch('/shk/delete-image', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ images_path: imagePath }), // اطمینان از ارسال نام صحیح پارامتر
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+        location.reload(); // بارگذاری مجدد صفحه برای به‌روزرسانی تصاویر
+      } else {
+        alert(result.message || 'خطایی رخ داده است.');
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      alert('خطایی در حذف تصویر رخ داده است.');
+    }
+  }
+}
+
+async function uploadImages() {
+    const input = document.getElementById('shopImagesInput');
+    const files = input.files;
+    
+    if (files.length === 0) {
+      alert('لطفاً حداقل یک تصویر انتخاب کنید.');
+      return;
+    }
+
+    const formData = new FormData();
+
+    // اضافه کردن فایل‌ها به FormData
+    for (let i = 0; i < files.length; i++) {
+      formData.append('shop_images', files[i]);
+    }
+
+    // اگر از username برای مسیر پوشه استفاده می‌کنی، اینجا تنظیمش کن
+    const username = '<%= shop.username %>'; // یا مقدار دلخواه در قالب EJS یا JS
+
+    try {
+      const res = await fetch(`/shk/upload-shop-images/${username}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert(result.message);
+        location.reload(); // صفحه دوباره بارگذاری شود تا تصاویر نمایش داده شوند
+      } else {
+        alert(result.message || 'خطا در آپلود تصاویر.');
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      alert('خطا در ارسال تصاویر.');
+    }
+  }
+      
+      </script>
+  </main>
+</body>
+<%- include('./../partials/footer') %>
+</html>

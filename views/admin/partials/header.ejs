@@ -1,0 +1,67 @@
+<header class="header">
+  <div class="datetime">
+    <span id="liveTime"></span>
+    &nbsp;
+    <span><%= date %></span>
+  </div>
+  <h1 class="title">پنل مدیریت</h1>
+  <div class="buttons">
+    <button id="addShopBtn" onclick="location.href='/admin/manageShpks/add-shop'" class="btn-outline-primary-custom">ایجاد فروشگاه</button>
+    <button id="manageShopsBtn" onclick="location.href='/admin/manageShpks/shopsManagement'" class="btn-outline-primary-custom">مدیریت فروشگاه ها</button>
+    <button id="adminPanelBtn" onclick="location.href='/admin/admin-panel'" class="btn-outline-primary-custom">پنل اصلی</button>
+  </div>
+</header>
+
+<style>
+
+  .btn {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+  }
+
+  /* رنگ متفاوت برای دکمه فعال */
+  .btn-active {
+    background-color: #28a745 !important;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+    transform: scale(1.05); 
+  }
+</style>
+
+<script>
+  function updateLiveTime() {
+    const liveTimeElement = document.getElementById('liveTime');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    liveTimeElement.textContent = timeString;
+  }
+
+  setInterval(updateLiveTime, 1000);
+  updateLiveTime();
+
+  function highlightActiveButton() {
+    const path = window.location.pathname;
+
+    
+    const routes = {
+      '/admin/manageShpks/add-shop': 'addShopBtn',
+      '/admin/manageShpks/shopsManagement': 'manageShopsBtn',
+      '/admin/admin-panel': 'adminPanelBtn'
+    };
+
+    
+    const activeButtonId = routes[path];
+    if (activeButtonId) {
+      document.getElementById(activeButtonId).classList.add('btn-active');
+    }
+  }
+
+ 
+  highlightActiveButton();
+</script>
