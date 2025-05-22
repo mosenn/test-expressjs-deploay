@@ -145,11 +145,11 @@ app.get("/securityGuy-reset-password/:token", (req, res) => {
 
 
 // const IP = process.env.IP;
-// const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
-// app.listen(PORT, IP, () => {
-//   console.log(`App listening on port ${PORT} and ${IP}`);
-// });
+ app.listen(PORT, IP, () => {
+  console.log(`App listening on port ${PORT}`);
+ });
 
 const serverless = require('serverless-http');
 module.exports = serverless(app);
